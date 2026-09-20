@@ -52,7 +52,13 @@ export function getInProgressSession() {
   const sessions = listSessions()
   return sessions.find((s) => s.status !== 'complete') ?? null
 }
-
+// Any session — in progress or completed — already created for the given
+// week (defaults to the current week). Used to stop a second, blank
+// session from ever getting created for a week that already has one.
+export function getSessionForWeek(weekStart = currentWeekStart()) {
+  const sessions = listSessions()
+  return sessions.find((s) => s.weekStart === weekStart) ?? null
+}
 export function createSession() {
   const now = new Date().toISOString()
   const session = {
