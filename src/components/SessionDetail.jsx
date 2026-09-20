@@ -60,35 +60,45 @@ export default function SessionDetail({ session, onClose }) {
         })}
       </div>
 
-      <div className="stack">
+            <div className="stack">
         {orderedIds.map((id) => {
           const segment = segmentById(id)
+          if (!segment) return null
           const reflection = session.reflections?.[id]
-          if (!segment || !reflection) return null
+          const hasAnyAnswer =
+            reflection && (reflection.wentWell || reflection.whyRating || reflection.whatsNext)
           return (
             <div className="card stack" key={id}>
               <div className="segment-label">
                 <span className="segment-emoji">{segment.emoji}</span>
                 <span>{segment.label}</span>
               </div>
-              <div>
-                <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
-                  What went well?
+              {hasAnyAnswer ? (
+                <>
+                  <div>
+                    <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
+                      What went well?
+                    </p>
+                    <p style={{ margin: 0 }}>{reflection.wentWell || '\u2014'}</p>
+                  </div>
+                  <div>
+                    <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
+                      Why did you rate it {session.ratings[id]}?
+                    </p>
+                    <p style={{ margin: 0 }}>{reflection.whyRating || '\u2014'}</p>
+                  </div>
+                  <div>
+                    <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
+                      What&rsquo;s next?
+                    </p>
+                    <p style={{ margin: 0 }}>{reflection.whatsNext || '\u2014'}</p>
+                  </div>
+                </>
+              ) : (
+                <p className="muted" style={{ margin: 0 }}>
+                  No reflection was saved for this area.
                 </p>
-                <p style={{ margin: 0 }}>{reflection.wentWell}</p>
-              </div>
-              <div>
-                <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
-                  Why did you rate it {session.ratings[id]}?
-                </p>
-                <p style={{ margin: 0 }}>{reflection.whyRating}</p>
-              </div>
-              <div>
-                <p className="muted" style={{ fontWeight: 600, color: 'var(--navy)', margin: '0 0 4px' }}>
-                  What&rsquo;s next?
-                </p>
-                <p style={{ margin: 0 }}>{reflection.whatsNext}</p>
-              </div>
+              )}
             </div>
           )
         })}
