@@ -21,14 +21,17 @@ function formatDay(date) {
 
 export default function Home({
   inProgress,
+  thisWeekComplete,
   completedSessions,
   onStart,
   onResume,
   onOpenSession,
+  onDeleteSession,
   todayEntryComplete,
   recentDailyEntries,
   onStartDaily,
   onOpenDaily,
+  onDeleteDaily,
 }) {
   return (
     <div className="stack">
@@ -76,6 +79,10 @@ export default function Home({
         {inProgress ? (
           <button className="primary-btn" onClick={() => onResume(inProgress)}>
             Continue this week&rsquo;s check-in
+          </button>
+        ) : thisWeekComplete ? (
+          <button className="primary-btn" onClick={onStart}>
+            View this week&rsquo;s check-in
           </button>
         ) : (
           <button className="primary-btn" onClick={onStart}>
