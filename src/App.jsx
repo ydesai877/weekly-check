@@ -43,8 +43,20 @@ export default function App() {
     setSession(saved)
     return saved
   }
-
+  
   function handleStart() {
+    // Never silently create a second, blank session for a week that
+    // already has one — that's how answers used to "go missing": a new
+    // empty session would shadow the real, filled-in one.
+    const existing = getSessionForWeek()
+    if (existing && existing.status === 'complete') {
+      setViewingSession(existing)
+      return
+    }
+    if (existing) {
+      setSession(existing)
+      return
+    }
     const created = createSession()
     setSession(created)
   }
@@ -159,9 +171,11 @@ export default function App() {
     )
   } else if (!session) {
     const todayEntry = dailyEntries.find((e) => e.date === todayDate())
+    const thisWeekSession = sessions.find((s) => s.weekStart === currentWeekStart())
     body = (
       <Home
         inProgress={inProgress}
+        thisWeekComplete={thisWeekSession?.status === 'complete'}
         completedSessions={sessions.filter((s) => s.status === 'complete')}
         onStart={handleStart}
         onResume={handleResume}
