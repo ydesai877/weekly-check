@@ -192,6 +192,19 @@ button {
   font-size: 1.2rem;
 }
 
+.segment-focus {
+  margin: -4px 0 2px;
+  font-size: 0.85rem;
+}
+
+.part-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 4px 0 0;
+}
+
 .scale-row {
   display: flex;
   gap: 6px;
