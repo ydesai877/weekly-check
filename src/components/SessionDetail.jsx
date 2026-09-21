@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
-import { segmentById } from '../data/segments'
-import { ratingColor } from '../lib/ratingColor'
+import { PARTS, segmentById, segmentsByPart } from '../data/segments'import { ratingColor } from '../lib/ratingColor'
 import { CLOSING_PAGES } from '../data/closingQuestions'
 import { weekEnd } from '../lib/storage'
 
