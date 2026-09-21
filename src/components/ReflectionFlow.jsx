@@ -48,6 +48,7 @@ export default function ReflectionFlow({
             {rating}
           </span>
         </div>
+        {segment.focus && <p className="muted segment-focus">{segment.focus}</p>}
 
         {FIELDS.map((field) => (
           <div key={field.key} className="stack" style={{ gap: 6 }}>
