@@ -38,31 +38,30 @@ export default function SessionDetail({ session, onClose }) {
         <p className="muted">This check-in isn&rsquo;t finished yet.</p>
       )}
 
-      {PARTS.map((part) => {
+            {PARTS.map((part) => {
         const partSegments = segmentsByPart(part.id).filter((s) => session.ratings[s.id] != null)
         if (partSegments.length === 0) return null
         return (
-          <div className="stack" key={part.id} style={{ gap: 10 }}>
+          <div className="part-card" key={part.id}>
             <h3 className="part-title">{part.title}</h3>
-            <div className="card summary-grid">
-              {partSegments.map((segment) => (
-                <Fragment key={segment.id}>
-                  <span>
-                    {segment.emoji} {segment.label}
-                  </span>
+            {partSegments.map((segment) => (
+              <div className="segment-row" key={segment.id}>
+                <div className="segment-label">
+                  <span className="segment-emoji">{segment.emoji}</span>
+                  <span>{segment.label}</span>
                   <span
                     className="rating-badge"
-                    style={{ background: ratingColor(session.ratings[segment.id]) }}
+                    style={{ background: ratingColor(session.ratings[segment.id]), marginLeft: 'auto' }}
                   >
                     {session.ratings[segment.id]}
                   </span>
-                </Fragment>
-              ))}
-            </div>
+                </div>
+                <p className="muted focus-box">Focus: {segment.focus}</p>
+              </div>
+            ))}
           </div>
         )
       })}
-
             <div className="stack">
         {orderedIds.map((id) => {
           const segment = segmentById(id)
