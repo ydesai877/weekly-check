@@ -14,35 +14,33 @@ export default function RankingScreen({ ratings, onRate, onDone, onCancel }) {
       </div>
 
       {PARTS.map((part) => (
-        <div className="stack" key={part.id} style={{ gap: 10 }}>
+        <div className="part-card" key={part.id}>
           <h3 className="part-title">{part.title}</h3>
-          <div className="card">
-            {segmentsByPart(part.id).map((segment) => (
-              <div className="segment-row" key={segment.id}>
-                <div className="segment-label">
-                  <span className="segment-emoji">{segment.emoji}</span>
-                  <span>{segment.label}</span>
-                </div>
-                <p className="muted segment-focus">{segment.focus}</p>
-                <div className="scale-row">
-                  {SCALE.map((n) => (
-                    <button
-                      key={n}
-                      className={`scale-btn${ratings[segment.id] === n ? ' selected' : ''}`}
-                      onClick={() => onRate(segment.id, n)}
-                      aria-pressed={ratings[segment.id] === n}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-                <div className="scale-hint">
-                  <span>Terrible</span>
-                  <span>Terrific</span>
-                </div>
+          {segmentsByPart(part.id).map((segment) => (
+            <div className="segment-row" key={segment.id}>
+              <div className="segment-label">
+                <span className="segment-emoji">{segment.emoji}</span>
+                <span>{segment.label}</span>
               </div>
-            ))}
-          </div>
+              <p className="muted focus-box">Focus: {segment.focus}</p>
+              <div className="scale-row">
+                {SCALE.map((n) => (
+                  <button
+                    key={n}
+                    className={`scale-btn${ratings[segment.id] === n ? ' selected' : ''}`}
+                    onClick={() => onRate(segment.id, n)}
+                    aria-pressed={ratings[segment.id] === n}
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+              <div className="scale-hint">
+                <span>Terrible</span>
+                <span>Terrific</span>
+              </div>
+            </div>
+          ))}
         </div>
       ))}
 
