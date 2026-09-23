@@ -72,3 +72,8 @@ export function saveDailyEntry(entry) {
 export function deleteDailyEntry(id) {
   writeAll(readAll().filter((e) => e.id !== id))
 }
+
+// Removes every saved daily check-in.
+export function clearAllDailyEntries() {
+  writeAll([])
+}
