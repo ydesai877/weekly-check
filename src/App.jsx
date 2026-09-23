@@ -5,9 +5,9 @@ import ReflectionFlow from './components/ReflectionFlow'
 import ClosingSection from './components/ClosingSection'
 import SessionDetail from './components/SessionDetail'
 import DailyCheckin from './components/DailyCheckin'
-import DailyDetail from './components/DailyDetail'
-import {
+import DailyDetail from './components/DailyDetail'import {
   buildReflectionOrder,
+  clearAllSessions,
   createSession,
   currentWeekStart,
   deleteSession,
@@ -16,7 +16,15 @@ import {
   listSessions,
   saveSession,
 } from './lib/storage'
-import { ensureTodayEntry, getDailyEntry, listDailyEntries, saveDailyEntry, todayDate } from './lib/dailyStorage'
+import {
+  clearAllDailyEntries,
+  deleteDailyEntry,
+  ensureTodayEntry,
+  getDailyEntry,
+  listDailyEntries,
+  saveDailyEntry,
+  todayDate,
+} from './lib/dailyStorage'
 
 export default function App() {
   const [session, setSession] = useState(null) // active weekly session being edited
@@ -64,7 +72,31 @@ export default function App() {
   function handleResume(existing) {
     setSession(existing)
   }
+  function handleDeleteSession(s) {
+    deleteSession(s.id)
+    if (viewingSession?.id === s.id) setViewingSession(null)
+    refreshHome()
+  }
 
+  // Reopens a past week — even a completed one — for editing. Existing
+  // ratings, reflections, and closing answers stay in place as a starting
+  // point; nothing is lost until the redo is saved through to "Finish."
+  function handleRedoSession(s) {
+    setViewingSession(null)
+    setSession({ ...s, status: 'rating', completedAt: null })
+  }
+
+  function handleClearAllSessions() {
+    clearAllSessions()
+    setViewingSession(null)
+    refreshHome()
+  }
+
+  function handleClearAllDaily() {
+    clearAllDailyEntries()
+    setViewingDaily(null)
+    refreshHome()
+  }
   function handleExitToHome() {
     setSession(null)
     setDailyEntry(null)
@@ -157,7 +189,12 @@ export default function App() {
 
   let body
   if (viewingSession) {
-    body = <SessionDetail session={viewingSession} onClose={() => setViewingSession(null)} />
+    body =      <SessionDetail
+        session={viewingSession}
+        onClose={() => setViewingSession(null)}
+        onDelete={() => handleDeleteSession(viewingSession)}
+        onRedo={() => handleRedoSession(viewingSession)}
+      />
   } else if (viewingDaily) {
     body = <DailyDetail entry={viewingDaily} onClose={() => setViewingDaily(null)} />
   } else if (dailyEntry) {
@@ -174,16 +211,16 @@ export default function App() {
     const thisWeekSession = sessions.find((s) => s.weekStart === currentWeekStart())
     body = (
       <Home
-        inProgress={inProgress}
-        thisWeekComplete={thisWeekSession?.status === 'complete'}
-        completedSessions={sessions.filter((s) => s.status === 'complete')}
-        onStart={handleStart}
-        onResume={handleResume}
         onOpenSession={handleOpenSession}
+        onDeleteSession={handleDeleteSession}
+        onRedoSession={handleRedoSession}
+        onClearSessions={handleClearAllSessions}
         todayEntryComplete={Boolean(todayEntry?.completedAt)}
         recentDailyEntries={dailyEntries.slice(0, 7)}
         onStartDaily={handleStartDaily}
         onOpenDaily={handleOpenDaily}
+        onDeleteDaily={handleDeleteDaily}
+        onClearDaily={handleClearAllDaily}
       />
     )
   } else if (session.status === 'rating') {
