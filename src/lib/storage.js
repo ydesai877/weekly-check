@@ -94,11 +94,9 @@ export function deleteSession(id) {
   writeAll(readAll().filter((s) => s.id !== id))
 }
 
-// Once all 14 segments are rated, decide the order to walk through
-// reflections in: lowest-rated first, so the segments that need the most
-// attention come up while focus is freshest.
+// Once every segment is rated, decide the order to walk through
+// reflections in: the fixed Part 1 -> Part 2 -> Part 3 order, so the
+// reflection flow matches the order everything else is shown in.
 export function buildReflectionOrder(ratings) {
-  return SEGMENTS.map((s) => s.id)
-    .filter((id) => typeof ratings[id] === 'number')
-    .sort((a, b) => ratings[a] - ratings[b])
+  return SEGMENTS.map((s) => s.id).filter((id) => typeof ratings[id] === 'number')
 }
