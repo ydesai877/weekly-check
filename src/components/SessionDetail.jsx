@@ -20,10 +20,20 @@ function formatWeek(weekStart) {
   return `${startStr} – ${endStr}`
 }
 
-export default function SessionDetail({ session, onClose, onDelete }) {
+export default function SessionDetail({ session, onClose, onDelete, onRedo }) {
   function handleDelete() {
     if (window.confirm("Delete this week's check-in? This can't be undone.")) {
       onDelete()
+    }
+  }
+
+  function handleRedo() {
+    if (
+      window.confirm(
+        'Redo this week? Your existing answers stay in place until you save changes through to Finish.'
+      )
+    ) {
+      onRedo()
     }
   }
 
@@ -32,6 +42,9 @@ export default function SessionDetail({ session, onClose, onDelete }) {
       <div className="top-bar" style={{ marginBottom: 0 }}>
         <h2>Week of {formatWeek(session.weekStart)}</h2>
         <div style={{ display: 'flex', gap: 8 }}>
+          <button className="redo-btn" onClick={handleRedo}>
+            Redo
+          </button>
           <button className="delete-btn" onClick={handleDelete}>
             Delete
           </button>
