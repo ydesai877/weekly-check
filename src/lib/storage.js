@@ -94,6 +94,11 @@ export function deleteSession(id) {
   writeAll(readAll().filter((s) => s.id !== id))
 }
 
+// Removes every saved weekly check-in.
+export function clearAllSessions() {
+  writeAll([])
+}
+
 // Once every segment is rated, decide the order to walk through
 // reflections in: the fixed Part 1 -> Part 2 -> Part 3 order, so the
 // reflection flow matches the order everything else is shown in.
