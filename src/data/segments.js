@@ -32,8 +32,8 @@ export const SEGMENTS = [
   {
     id: 'identity-ethics',
     part: 'internal',
-    emoji: '🧭',
-    label: 'Identity, Ethics & Self-Concept',
+    emoji: '🫡',
+    label: 'Self-esteem & Confidence',
     focus: 'Core values, self-worth, integrity, narrative identity, personal philosophy, and existential grounding.',
   },
   {
@@ -63,7 +63,7 @@ export const SEGMENTS = [
     part: 'relational',
     emoji: '🌍',
     label: 'Civic Engagement & Community Contribution',
-    focus: 'Mentorship, philanthropy, civic duty, belonging to wider groups, and generational stewardship.',
+    focus: 'Mentorship, Community Engagement, Donations.',
   },
   {
     id: 'professional-craft',
@@ -76,8 +76,8 @@ export const SEGMENTS = [
     id: 'wealth-architecture',
     part: 'external',
     emoji: '🏦',
-    label: 'Wealth Architecture & Resource Management',
-    focus: 'Cash flow, investment literacy, risk management, asset protection, and financial autonomy.',
+    label: 'Personal Wealth  Management',
+    focus: 'Personal Finance Independence, Intentful spending, Financial Knowledge.',
   },
   {
     id: 'physical-environment',
