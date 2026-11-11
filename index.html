@@ -5,15 +5,24 @@
     <link rel="icon" type="image/svg+xml" href="/weekly-check/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
-      // Set the theme before the page paints, so a dark page does not flash white.
+      // Pick the mode and the theme before the page paints, so a dark page does not flash white.
+      // A browser that already holds weeks continues as `own`. ?demo in the address opens demo mode.
       try {
-        var t = JSON.parse(localStorage.getItem('oneself3.settings.v1') || '{}').theme
+        var mode = localStorage.getItem('oneself3.mode.v1')
+        if (mode !== 'demo' && mode !== 'own') {
+          mode = null
+          if (new URLSearchParams(location.search).has('demo')) mode = 'demo'
+          else if (JSON.parse(localStorage.getItem('oneself3.weeks.v1') || '[]').length > 0) mode = 'own'
+          if (mode) localStorage.setItem('oneself3.mode.v1', mode)
+        }
+        var ns = mode === 'demo' ? 'oneself3demo' : 'oneself3'
+        var t = JSON.parse(localStorage.getItem(ns + '.settings.v1') || '{}').theme
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
       } catch (e) {}
     </script>
     <title>OneSelf</title>
-    <script type="module" crossorigin src="/weekly-check/assets/index-DdQVVl-6.js"></script>
-    <link rel="stylesheet" crossorigin href="/weekly-check/assets/index-CJehdtVb.css">
+    <script type="module" crossorigin src="/weekly-check/assets/index-Ckprwtwp.js"></script>
+    <link rel="stylesheet" crossorigin href="/weekly-check/assets/index-CZTJfpKj.css">
   </head>
   <body>
     <div id="root"></div>
